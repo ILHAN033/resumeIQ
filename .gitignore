@@ -1,0 +1,9 @@
+Backend/.env
+Backend/mongoDB_users.txt
+
+# Node modules
+node_modules/
+
+# Build folders
+dist/
+build/
