@@ -4,14 +4,42 @@ const interviewReportModel = require('../models/interviewReport.model')
 
 async function generateInterviewReportController(req,res){
 
-    const resumeContent = await (new pdfParse.PDFParse(Uint8Array.from(req.file.buffer))).getText()
+    // const resumeContent = await (new pdfParse.PDFParse(Uint8Array.from(req.file.buffer))).getText()
 
-    const {selfDescription,jobDescription} = req.body
+    // const {selfDescription,jobDescription} = req.body
 
+
+    // const interviewReportByAI = await generateInterviewReport({
+    //     resume:resumeContent.text,
+    //     selfDescription,
+    //     jobDescription
+    // })
+
+    const hasPdf = Boolean(req.file)
+    const hasSelfDescription = Boolean(req.body.selfDescription?.trim())
+
+    // Exactly one must be provided
+    if (hasPdf === hasSelfDescription) {
+        return res.status(400).json({
+            message: "Provide either a PDF resume or a self description, but not both."
+        })
+    }
+
+    let resumeContent = ""
+
+    if (hasPdf) {
+        const parsedPdf = await new pdfParse.PDFParse(
+            Uint8Array.from(req.file.buffer)
+        ).getText()
+
+        resumeContent = parsedPdf.text
+    }
+
+    const { selfDescription, jobDescription } = req.body
 
     const interviewReportByAI = await generateInterviewReport({
-        resume:resumeContent.text,
-        selfDescription,
+        resume: resumeContent,
+        selfDescription: hasSelfDescription ? selfDescription : "",
         jobDescription
     })
 

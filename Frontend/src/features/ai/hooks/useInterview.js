@@ -31,7 +31,7 @@
                 setLoading(false)
             }
 
-            return response.interviewReport
+            return response?.interviewReport ?? null
 
 
         
@@ -50,7 +50,7 @@
             }finally{
                 setLoading(false)
             }
-            return response.interviewReport
+            return response?.interviewReport ?? null
         }
 
 
@@ -66,7 +66,7 @@
             }finally{
                 setLoading(false)
             }
-            return response.interviewReports
+            return response?.interviewReports ?? []
         }
 
 

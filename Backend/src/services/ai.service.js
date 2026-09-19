@@ -70,7 +70,7 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
   const prompt = buildPrompt(resume, selfDescription, jobDescription);
 
   const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash",
+    model: "gemini-3.5-flash",
     contents: prompt,
     config: {
       responseMimeType: "application/json",
